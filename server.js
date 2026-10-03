@@ -4,15 +4,19 @@ import cors from "cors";
 import { connectDb } from "./config/db.js";
 
 dotenv.config();
-connectDb()
+connectDb();
 const PORT = process.env.PORT_SERVER;
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 app.get("/", (req, res) => {
-    res.send("the app is running...")
+  res.send("the app is running...");
 });
 
 app.listen(PORT, () => {
