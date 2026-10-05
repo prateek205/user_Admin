@@ -4,12 +4,11 @@ import dotenv from "dotenv";
 dotenv.config();
 const MONGODB_URL = process.env.MONGODB_URI;
 
-export const connectDb =
-  (MONGODB_URL,
-  () => {
-    try {
-      console.log("Mongodb is connected successfully!!! 🚀");
-    } catch (error) {
-      console.log("Mongodb connection is failed... ❌");
-    }
-  });
+export const connectDb = async () => {
+  try {
+    await mongoose.connect(MONGODB_URL);
+    console.log("Mongodb is connected successfully!!! 🚀");
+  } catch (error) {
+    console.log("Mongodb connection failed... ❌");
+  }
+};
