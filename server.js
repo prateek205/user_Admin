@@ -17,7 +17,7 @@ app.use(
   }),
 );
 
-app.use("/api/v1/product", productRoutes)
+app.use("/api/v1/products", productRoutes)
 
 app.listen(PORT, () => {
   console.log(`the server is running on port http://localhost:${PORT}`);

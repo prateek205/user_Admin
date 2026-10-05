@@ -1,4 +1,4 @@
-import Product from "../models/ProductModel.js";
+import Products from "../models/ProductModel.js";
 
 export const createProduct = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ export const createProduct = async (req, res) => {
         .json({ success: false, message: "All feilds are required..." });
     }
 
-    const existProduct = await Product.findOne({ productName });
+    const existProduct = await Products.findOne({ productName });
 
     if (!existProduct) {
       return res
@@ -19,7 +19,7 @@ export const createProduct = async (req, res) => {
         .json({ success: false, message: "Product already exists." });
     }
 
-    const newProduct = Product.create({
+    const newProduct = Products.create({
       product: productName,
       quantity: productQuantity,
       price: productPrice,
