@@ -64,7 +64,7 @@ export const getAllProducts = async (req, res) => {
       success: true,
       message: "Product fetch successfully!!!",
       count: products.length,
-      products,
+      products: products,
     });
   } catch (error) {
     console.log("GET_ALL_PRODUCT_ERROR:", error);
@@ -78,7 +78,7 @@ export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const existProduct = await Products.findByIdAndUpdate(id, { new: true });
+    const existProduct = await Products.findById(id);
 
     if (!existProduct) {
       return res
@@ -88,8 +88,8 @@ export const getProductById = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Product update successfully!!!",
-      product: existProduct,
+      message: "Product fetch by id successfully!!!",
+      products: existProduct,
     });
   } catch (error) {
     console.log("UPDATE_PRODUCT_ERROR:", error);
