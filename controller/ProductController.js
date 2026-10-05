@@ -76,9 +76,40 @@ export const getAllProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
   try {
+    // in this find the product by id using the params.
     const { id } = req.params;
 
+    // this show the existProduct is findById.
     const existProduct = await Products.findById(id);
+
+    // check the condition if the product is not exist in list.
+    if (!existProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    // checking the all conditions give the response to UI side.
+    res.status(200).json({
+      success: true,
+      message: "Product fetch by id successfully!!!",
+      products: existProduct,
+    });
+  } catch (error) {
+    console.log("UPDATE_PRODUCT_ERROR:", error);
+
+    // give the error if the product not fetch by id.
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+export const updateProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const existProduct = await Products.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
     if (!existProduct) {
       return res
@@ -88,7 +119,7 @@ export const getProductById = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Product fetch by id successfully!!!",
+      message: "Product update successfully!!!",
       products: existProduct,
     });
   } catch (error) {
