@@ -46,3 +46,29 @@ export const createProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
+export const getAllProducts = async (req, res) => {
+  try {
+    // in this when we get the product list it will show the new product on top.
+    const products = await Products.find({ created: -1 });
+
+    // it will show the product is in the list or not.
+    if (!products) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    // after all condition check the product will show with the res.status(200).
+    res.status(200).json({
+      success: true,
+      message: "Product fetch successfully!!!",
+      count: products.length,
+    });
+  } catch (error) {
+    console.log("GET_ALL_PRODUCT_ERROR:", error);
+
+    // it will show the error if product didn't get fetch successfully.
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
