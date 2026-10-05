@@ -49,9 +49,8 @@ export const createProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
   try {
-
     // in this when we get the product list it will show the new product on top.
-    const products = await Products.find({}).sort({createdAt: -1});
+    const products = await Products.find({}).sort({ createdAt: -1 });
 
     // it will show the product is in the list or not.
     if (!products) {
@@ -65,12 +64,36 @@ export const getAllProducts = async (req, res) => {
       success: true,
       message: "Product fetch successfully!!!",
       count: products.length,
-      products
+      products,
     });
   } catch (error) {
     console.log("GET_ALL_PRODUCT_ERROR:", error);
 
     // it will show the error if product didn't get fetch successfully.
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const existProduct = await Products.findByIdAndUpdate(id, { new: true });
+
+    if (!existProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Product update successfully!!!",
+      product: existProduct,
+    });
+  } catch (error) {
+    console.log("UPDATE_PRODUCT_ERROR:", error);
+
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
